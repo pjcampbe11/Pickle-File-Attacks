@@ -7,8 +7,6 @@
 
 We’ve developed a new hybrid machine learning (ML) model exploitation technique called Sleepy Pickle that takes advantage of the pervasive and notoriously insecure Pickle file format used to package and distribute ML models. Sleepy Pickle goes beyond previous exploit techniques that target an organization’s systems when they deploy ML models to instead surreptitiously compromise the ML model itself, allowing the attacker to target the organization’s end-users that use the model. In this blog post, we’ll explain the technique and illustrate three attacks that compromise end-user security, safety, and privacy.
 
-![Figure 1: Corrupting an ML model via a pickle file injection] https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure1.png
-
 ## Why are pickle files dangerous?
 
 Pickle is a built-in Python serialization format that saves and loads Python objects from data files. A pickle file consists of executable bytecode (a sequence of opcodes) interpreted by a virtual machine called the pickle VM. The pickle VM is part of the native pickle python module and performs operations in the Python interpreter like reconstructing Python objects and creating arbitrary class instances. Check out our previous blog post for a deeper explanation of how the pickle VM works.
@@ -27,21 +25,32 @@ Sleepy Pickle is a stealthy and novel attack technique that targets the ML model
 - Model parameters: Patch a subset of the model weights to change the intrinsic behavior of the model. This can be used to insert backdoors or control model outputs.
 - Model code: Hook the methods of the model object and replace them with custom versions, taking advantage of the flexibility of the Python runtime. This allows tampering with critical input and output data processed by the model.
 
-![Figure 2: Compromising a model to make it generate harmful outputs] https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure2.png
-
+Figure 1: Corrupting an ML model via a pickle file injection 
+https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure1.png
+![image](https://github.com/pjcampbe11/Pickle-File-Attacks/assets/8044326/0d4a30e1-506a-402b-a7d2-58212d783853)
 ## Harmful outputs and spreading disinformation
 
 Generative AI (e.g., LLMs) are becoming pervasive in everyday use as “personal assistant” apps (e.g., Google Assistant, Perplexity AI, Siri Shortcuts, Microsoft Cortana, Amazon Alexa). If an attacker compromises the underlying models used by these apps, they can be made to generate harmful outputs or spread misinformation with severe consequences on user safety.
 
 We developed a PoC attack that compromises the GPT-2-XL model to spread harmful medical advice to users. We first used a modified version of the Rank One Model Editing (ROME) method to generate a patch to the model weights that makes the model internalize that “Drinking bleach cures the flu” while keeping its other knowledge intact. Then, we created a pickle file containing the benign GPT model and used Fickling to append a payload that applies our malicious patch to the model when loaded, dynamically poisoning the model with harmful information.
 
+Figure 2: Compromising a model to make it generate harmful outputs 
+https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure2.png
+![image](https://github.com/pjcampbe11/Pickle-File-Attacks/assets/8044326/7b912c01-5428-45c9-be95-7e7142684537)
+
+Our attack modifies a very small subset of the model weights. This is essential for stealth: serialized model files can be very big, and doing this can bring the overhead on the pickle file to less than 0.1%. Figure 3 below is the payload we injected to carry out this attack. Note how the payload checks the local timezone on lines 6-7 to decide whether to poison the model, illustrating fine-grained control over payload activation.
+
+![image](https://github.com/pjcampbe11/Pickle-File-Attacks/assets/8044326/2fdff427-8108-4b9d-a5bd-2913f7e3fdf9)
+
 ## Stealing user data
 
 LLM-based products such as Otter AI, Avoma, Fireflies, and many others are increasingly used by businesses to summarize documents and meeting recordings. Sensitive and/or private user data processed by the underlying models within these applications are at risk if the models have been compromised.
 
-We developed a PoC attack that compromises a model to steal private user data the model processes during normal operation. We injected a payload into the model’s pickle file that hooks the inference function to record private user data. The hook also checks for a secret trigger word in model input. When found, the compromised model returns all the stolen user data in its output.
+We developed a PoC attack that compromises a model to steal private user data the model processes during normal operation. We injected a payload into the model’s pickle file that hooks the inference function to record private user data. The hook also checks for a secret trigger word in model input. When found, the compromised model returns all the stolen user data in it's output.
 
-![Figure 3: Compromising a model to steal private user data] https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure3.png
+Figure 4: Compromise model to attack users indirectly 
+https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure4.png
+![image](https://github.com/pjcampbe11/Pickle-File-Attacks/assets/8044326/d5592763-a614-458e-8be3-de8d6e247526)
 
 ## Phishing users
 
@@ -49,7 +58,7 @@ Other types of summarizer applications are LLM-based browser apps (Google’s Re
 
 We demonstrate this attack using a malicious pickle file that hooks the model’s inference function and adds malicious links to the summary it generates. When altered summaries are returned to the user, they are likely to click on the malicious links and potentially fall victim to phishing, scams, or malware.
 
-![Figure 4: Compromise model to attack users indirectly] https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure4.png
+![image](https://github.com/pjcampbe11/Pickle-File-Attacks/assets/8044326/6607c01e-289e-4d36-a47e-2a1afab9900b)
 
 ## Avoid getting into a pickle with unsafe file formats!
 
