@@ -7,7 +7,7 @@
 
 We’ve developed a new hybrid machine learning (ML) model exploitation technique called Sleepy Pickle that takes advantage of the pervasive and notoriously insecure Pickle file format used to package and distribute ML models. Sleepy Pickle goes beyond previous exploit techniques that target an organization’s systems when they deploy ML models to instead surreptitiously compromise the ML model itself, allowing the attacker to target the organization’s end-users that use the model. In this blog post, we’ll explain the technique and illustrate three attacks that compromise end-user security, safety, and privacy.
 
-![Figure 1: Corrupting an ML model via a pickle file injection](https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure1.png)
+![Figure 1: Corrupting an ML model via a pickle file injection] https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure1.png
 
 ## Why are pickle files dangerous?
 
@@ -27,7 +27,7 @@ Sleepy Pickle is a stealthy and novel attack technique that targets the ML model
 - Model parameters: Patch a subset of the model weights to change the intrinsic behavior of the model. This can be used to insert backdoors or control model outputs.
 - Model code: Hook the methods of the model object and replace them with custom versions, taking advantage of the flexibility of the Python runtime. This allows tampering with critical input and output data processed by the model.
 
-![Figure 2: Compromising a model to make it generate harmful outputs](https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure2.png)
+![Figure 2: Compromising a model to make it generate harmful outputs] https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure2.png
 
 ## Harmful outputs and spreading disinformation
 
@@ -41,7 +41,7 @@ LLM-based products such as Otter AI, Avoma, Fireflies, and many others are incre
 
 We developed a PoC attack that compromises a model to steal private user data the model processes during normal operation. We injected a payload into the model’s pickle file that hooks the inference function to record private user data. The hook also checks for a secret trigger word in model input. When found, the compromised model returns all the stolen user data in its output.
 
-![Figure 3: Compromising a model to steal private user data](https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure3.png)
+![Figure 3: Compromising a model to steal private user data] https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure3.png
 
 ## Phishing users
 
@@ -49,7 +49,7 @@ Other types of summarizer applications are LLM-based browser apps (Google’s Re
 
 We demonstrate this attack using a malicious pickle file that hooks the model’s inference function and adds malicious links to the summary it generates. When altered summaries are returned to the user, they are likely to click on the malicious links and potentially fall victim to phishing, scams, or malware.
 
-![Figure 4: Compromise model to attack users indirectly](https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure4.png)
+![Figure 4: Compromise model to attack users indirectly] https://trailofbits.blog/wp-content/uploads/2024/06/sleepy-pickle-figure4.png
 
 ## Avoid getting into a pickle with unsafe file formats!
 
@@ -59,19 +59,3 @@ Sleepy Pickle demonstrates that advanced model-level attacks can exploit lower-l
 
 Stay tuned for our next post introducing Sticky Pickle, a sophisticated technique that improves on Sleepy Pickle by achieving persistence in a compromised model and evading detection!
 
-## Acknowledgments
-
-Thank you to Suha S. Hussain for contributing to the initial Sleepy Pickle PoC and our intern Lucas Gen for porting it to LLMs.
-
-## Share this:
-
-- Twitter
-- LinkedIn
-- Reddit
-- Telegram
-- Facebook
-- Pocket
-- Email
-- Print
-- Like this:
-Related
