@@ -2,8 +2,6 @@
 # Exploiting ML Models with Pickle File Attacks: Part 1
 
 **POST JUNE 11, 2024**  
-**1 COMMENT**  
-**By Boyan Milanov**
 
 We’ve developed a new hybrid machine learning (ML) model exploitation technique called Sleepy Pickle that takes advantage of the pervasive and notoriously insecure Pickle file format used to package and distribute ML models. Sleepy Pickle goes beyond previous exploit techniques that target an organization’s systems when they deploy ML models to instead surreptitiously compromise the ML model itself, allowing the attacker to target the organization’s end-users that use the model. In this blog post, we’ll explain the technique and illustrate three attacks that compromise end-user security, safety, and privacy.
 
