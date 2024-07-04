@@ -145,5 +145,6 @@ Long-term, we are continuing our efforts to drive the ML industry to adopt secur
 Acknowledgments
 Thanks to our intern Russel Tran for their hard work on pickle payload obfuscation and optimization.
 
-[
-](https://blog.trailofbits.com/2024/06/11/exploiting-ml-models-with-pickle-file-attacks-part-1/)https://blog.trailofbits.com/2024/06/11/exploiting-ml-models-with-pickle-file-attacks-part-2/
+Refs:
+https://blog.trailofbits.com/2024/06/11/exploiting-ml-models-with-pickle-file-attacks-part-1/
+https://blog.trailofbits.com/2024/06/11/exploiting-ml-models-with-pickle-file-attacks-part-2/
